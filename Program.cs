@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Diagnostics.Metrics;
+using System.Text;
 using System.Text.RegularExpressions;
 
 public class Program
 {
     static void Main()
     {
+
+        Console.OutputEncoding = Encoding.UTF8;
+
         const string MenuTitle = "===================================== MAIN MENU - CODEQUEST  =====================================";
         const string MenuOption1 = "1. Train your wizard\n2. Increase LVL\n3. Loot the mine\n4. Show inventory\n5. Buy items\n6. Show attacks by LVL\n7. Decode ancient Scroll\n8. Exit game";
         const string MenuPrompt = "Choose an option (1-8) - (0) to exit: ";
@@ -46,7 +50,7 @@ public class Program
 
                         Power : {2}
 
-                        Day: {3}                         Hour: {4}
+                        Day: {3}                          Hour : {4}
 
 =========================================================================================================
             ";
@@ -59,10 +63,111 @@ public class Program
                         Power : {2}
 
                         Title : ";
+        const string Char2Battle = @"
+===================================== CHAPTER 2 - Increase LVL  ========================================
+
+                You have encountered {0} , roll the die to determine your damage      
+
+                                        Good luck, wizard....
+
+=========================================================================================================";
+
+        const string Char2ShowMonster = @"
+===================================== CHAPTER 2 - Increase LVL  ========================================
+
+                    Monster : {0}                                       Hp:{1}
+  
+              ";
+
+        const string Char2Dice1 = @"
+
+                                                ________
+                                               /       /|   
+                                              /_______/ |
+                                              |       | |
+                                              |   o   | /
+                                              |       |/ 
+                                              '-------'
+
+
+";
+        const string Char2Dice2 = @"
+
+                                                ________
+                                               /       /|   
+                                              /_______/ |
+                                              |     o | |
+                                              |       | /
+                                              | o     |/ 
+                                              '-------'
+";
+        const string Char2Dice3 = @"
+
+                                                ________
+                                               /       /|   
+                                              /_______/ |
+                                              |     o | |
+                                              |   o   | /
+                                              | o     |/ 
+                                              '-------'
+";
+
+        const string Char2Dice4 = @"
+
+                                                ________
+                                               /       /|   
+                                              /_______/ |
+                                              | o   o | |
+                                              |       | /
+                                              | o   o |/ 
+                                              '-------'
+";
+        const string Char2Dice5 = @"
+
+                                                ________
+                                               /       /|   
+                                              /_______/ |
+                                              | o   o | |
+                                              |   o   | /
+                                              | o   o |/ 
+                                              '-------'
+                ";
+        const string Char2Dice6 = @"
+
+                                                ________
+                                               /       /|   
+                                              /_______/ |
+                                              | o   o | |
+                                              | o   o | /
+                                              | o   o |/ 
+                                              '-------'
+                ";
+
+
+        const string Char2TakeDamage = @"
+                    
+                                        The monster take damage!!
+
+                                        You have done {0} damage
+
+                                Press any key to roll the dice again...
+
+=========================================================================================================";
+
+        const string Char2BattleEnd = @"
+===================================== CHAPTER 2 - Increase LVL  ========================================
+
+                                  The {0} ,  has been defeated!     
+
+                                               Level up ⬆️
+
+=========================================================================================================";
+
 
 
         const string Welcome = "\t\t\tWelcome, {0} the {1} with level {2}";
         const string MsgOpIncorrect = "Select the correct option.";
+
 
 
         const int DaysMax = 5;
@@ -82,6 +187,12 @@ public class Program
         int bitcoinsRandom;
         char mayusLetter;
         bool showWelcome = false;
+        string[] monsterName = { "Wandering Skeleton 💀", "Forest Goblin 👹", "Green Slime 🟢", "Ember Wolf 🐺", "Giant Spider 🕷️", "Iron Golem 🤖", "Lost Necromancer 🧝‍", "Ancient Dragon 🐉" };
+        int[] monsterHp = { 3, 5, 10, 11, 18, 15, 20, 50 };
+        int hpBattle;
+        int damage;
+        int monsterRandom;
+
 
         var random = new Random();
 
@@ -233,6 +344,60 @@ public class Program
 
                         break;
                     case 2:
+                        monsterRandom = random.Next(monsterName.Length);
+                        Console.WriteLine(Char2Battle, monsterName[monsterRandom]);
+                        Console.ReadKey();
+                        Console.Clear();
+                        hpBattle = monsterHp[monsterRandom];
+
+
+
+
+                        while (hpBattle > 0)
+                        {
+                            Console.Clear();
+                            Console.WriteLine(Char2ShowMonster, monsterName[monsterRandom], hpBattle);
+                            damage = random.Next(1, 6);
+                            switch (damage)
+                            {
+                                case 1: 
+                                Console.WriteLine(Char2Dice1);
+                                    Console.WriteLine(Char2TakeDamage, damage);
+                                    hpBattle -= damage;
+                                    break;
+                                case 2:
+                                    Console.WriteLine(Char2Dice2);
+                                    Console.WriteLine(Char2TakeDamage, damage);
+                                    hpBattle -= damage;
+                                    break;
+                                case 3:
+                                    Console.WriteLine(Char2Dice3);
+                                    Console.WriteLine(Char2TakeDamage, damage);
+                                    hpBattle -= damage;
+                                    break;
+                                case 4:
+                                    Console.WriteLine(Char2Dice4);
+                                    Console.WriteLine(Char2TakeDamage, damage);
+                                    hpBattle -= damage;
+                                    break;
+                                case 5:
+                                    Console.WriteLine(Char2Dice5);
+                                    Console.WriteLine(Char2TakeDamage, damage);
+                                    hpBattle -= damage;
+                                    break;
+                                case 6:
+                                    Console.WriteLine(Char2Dice6);
+                                    Console.WriteLine(Char2TakeDamage, damage);
+                                    hpBattle -= damage;
+                                    break;
+                            }
+                            Console.ReadKey();
+
+                        }
+                        Console.WriteLine(Char2BattleEnd, monsterName[monsterRandom]);
+                        Console.ReadKey();
+
+                        level++;
 
                         break;
                     case 3:
