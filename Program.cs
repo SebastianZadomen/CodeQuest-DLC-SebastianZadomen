@@ -192,6 +192,20 @@ public class Program
         int hpBattle;
         int damage;
         int monsterRandom;
+        //chapter 3 
+        char[,] mining = new char[5, 5];
+        char[,] showMining = new char[5, 5];
+        int mapRandom;
+        char excavated = '➖';
+        char fail = '❌';
+        char coin = '🪙';
+        int mapX = 0;
+        int mapY = 0;
+        int attemps = 5;
+
+
+
+
 
 
         var random = new Random();
@@ -401,8 +415,40 @@ public class Program
 
                         break;
                     case 3:
+                        Console.Clear();
+                        for(int i = 0; i < mining.GetLength(0);i++)
+                        {
+                            for (int j = 0; j < mining.GetLength(1); j++)
+                            {
+                                mapRandom = random.Next(1, 10);
+                                if (mapRandom <= 3)
+                                {
+                                    mining[i, j] = coin ;
+                                }
+                                else
+                                {
+                                    mining[i, j] = excavated;
+                                }
+                            }
+                        }
 
+                        while(attemps > 0)
+                        {
+                            Console.WriteLine(" 1 2 3 4");
+
+                            for (int i = 0; i < mining.GetLength(0); i++)
+                            {
+                                Console.Write($"{i}");
+                                for (int j = 0; j < mining.GetLength(1); j++)
+                                {
+                                    Console.Write(mining[i,j]);
+                                }
+                                Console.WriteLine("");
+                            }
+                            Console.ReadKey();
+                        }
                         break;
+
                     default:
 
                         Console.WriteLine(MsgOpIncorrect);
