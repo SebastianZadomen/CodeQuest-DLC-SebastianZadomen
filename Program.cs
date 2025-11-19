@@ -199,9 +199,20 @@ public class Program
         const string Chap3MsgMinePositionEmpty = "You mine at position [{0}][{1}] but found nothing.";
         const string Chap3MsgErrorAxis = "Invalid axis. Please enter a value between 0 and 4";
         const string Chap3MsgIncorrectFormat = "Incorrect format: {0}";
+        const string MsgPressContinue = "Press any key to continue...";
 
 
 
+        const string Chap4Inventory = @"
+=======================================  CHAPTER 4 - Inventory  ==========================================
+";
+        const string Objects1 = "\t\t\t\t\t- Iron Dagger 🗡️";
+        const string Objects2 = "\t\t\t\t\t- Healing Potion ⚗️";
+        const string Objects3 = "\t\t\t\t\t- Ancient Key 🗝️";
+        const string Objects4 = "\t\t\t\t\t- Crossbow 🏹";
+        const string Objects5 = "\t\t\t\t\t- Metal Shield 🛡";
+
+        const string Chap4MsgEmpty = "\t\t\t\t\tYour inventory is empty.\n";
 
         const string Welcome = "\t\t\tWelcome, {0} the {1} with level {2}";
         const string MsgOpIncorrect = "Select the correct option.";
@@ -239,10 +250,8 @@ public class Program
         int bitCharacter = 0;
         int bitRandom;
 
-
-
-
-
+        //chapter 4 
+        int[] inventory  = {0, 0 , 0 , 0 , 0 };
 
 
         var random = new Random();
@@ -250,7 +259,7 @@ public class Program
 
         do
         {
-            Thread.Sleep(1500);
+            Thread.Sleep(1000);
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Gray;
             Console.WriteLine(MenuTitle);
@@ -571,7 +580,53 @@ public class Program
                         Console.ReadKey();
                         attemps = 5;
                         break;
+                    case 4:
+                        Console.WriteLine(Chap4Inventory); 
+                        if (inventory[0].Equals(0) && inventory[1].Equals(0) && inventory[2].Equals(0) && inventory[3].Equals(0) && inventory[4].Equals(0))
+                        {
+                            Console.WriteLine(Chap4MsgEmpty);
 
+                        }
+
+                        for (int i = 0; i < inventory.Length; i++)
+                        {
+                            if (inventory[i] != 0)
+                            { 
+                                for (int j = 0; j < inventory[i]; j++)
+                                {
+                                     
+                                    switch (i)
+                                    {
+                                        case 0:
+                                            Console.WriteLine(Objects1);
+                                            break;
+                                        case 1:
+                                            Console.WriteLine(Objects2);
+
+                                            break;
+                                        case 2:
+                                            Console.WriteLine(Objects3);
+
+                                            break;
+                                        case 3:
+                                            Console.WriteLine(Objects4);
+                                            break;
+                                        case 4:
+                                            Console.WriteLine(Objects5);
+                                            break;
+                                        
+                                    }
+                                }
+                               
+                            }
+                        }
+                        Console.WriteLine(Space);
+                        Console.WriteLine(LineSeparator);
+                        Console.WriteLine(MsgPressContinue);
+                        Console.ReadKey();
+
+
+                        break;
                     default:
 
                         Console.WriteLine(MsgOpIncorrect);
