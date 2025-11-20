@@ -225,7 +225,7 @@ public class Program
 
         const string Chap5MsgPurchase = @"
          
-        You have purchased:{0}                                              -{1}
+        You have purchased: {0}                                             -{1}
 
 =========================================================================================================
 ";
@@ -628,21 +628,21 @@ public class Program
                                     switch (i)
                                     {
                                         case 0:
-                                            Console.WriteLine(Objects1);
+                                            Console.WriteLine("\t\t\t\t\t-{0}",shop[0]); ;
                                             break;
                                         case 1:
-                                            Console.WriteLine(Objects2);
+                                            Console.WriteLine("\t\t\t\t\t-{0}", shop[1]);
 
                                             break;
                                         case 2:
-                                            Console.WriteLine(Objects3);
+                                            Console.WriteLine("\t\t\t\t\t-{0}", shop[2]);
 
                                             break;
                                         case 3:
-                                            Console.WriteLine(Objects4);
+                                            Console.WriteLine("\t\t\t\t\t-{0}", shop[3]);
                                             break;
                                         case 4:
-                                            Console.WriteLine(Objects5);
+                                            Console.WriteLine("\t\t\t\t\t-{0}", shop[4]);
                                             break;
                                         
                                     }
