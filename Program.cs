@@ -2,6 +2,7 @@
 using System.Diagnostics.Metrics;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Xml;
 
 public class Program
 {
@@ -198,7 +199,7 @@ public class Program
         const string Chap3MsgMineKoPosition = "There's nothing left to dig here: [{0}][{1}]";
         const string Chap3MsgMinePositionEmpty = "You mine at position [{0}][{1}] but found nothing.";
         const string Chap3MsgErrorAxis = "Invalid axis. Please enter a value between 0 and 4";
-        const string Chap3MsgIncorrectFormat = "Incorrect format: {0}";
+        const string MsgIncorrectFormat = "Incorrect format: {0}";
         const string MsgPressContinue = "Press any key to continue...";
 
 
@@ -213,6 +214,26 @@ public class Program
         const string Objects5 = "\t\t\t\t\t- Metal Shield 🛡";
 
         const string Chap4MsgEmpty = "\t\t\t\t\tYour inventory is empty.\n";
+
+        const string Chap5Shop = @"
+=======================================  CHAPTER 5 - Buy Items  =========================================
+
+                            Welcome to the store, choose your item to buy
+
+                                                                            Bits:{0}
+";
+
+        const string Chap5MsgPurchase = @"
+         
+        You have purchased:{0}                                              -{1}
+
+=========================================================================================================
+";
+        const string Chap5MsgOption = "Select the item you wish to buy (1 - 5) (0 to exit):";
+        const string Chap5MsgLeaving = "Thank you for visiting the shop!";
+        const string Chap5MsgNotBits = "You do not have enough bits to purchase this item.";
+        const string Chap5MsgIncorretSelection = "The selection is incorrect.....";
+
 
         const string Welcome = "\t\t\tWelcome, {0} the {1} with level {2}";
         const string MsgOpIncorrect = "Select the correct option.";
@@ -252,6 +273,14 @@ public class Program
 
         //chapter 4 
         int[] inventory  = {0, 0 , 0 , 0 , 0 };
+
+
+        //chapter5
+        string[] shop = { "Iron Dagger 🗡️", "Healing Potion ⚗️", "Ancient Key 🗝️", "Crossbow 🏹", "Metal Shield 🛡️" };
+        int[] price = { 30, 10, 50, 40, 20 };
+        int shopOption;
+        int optionCount = 1;
+        bool validateShop = true;
 
 
         var random = new Random();
@@ -564,7 +593,7 @@ public class Program
                             catch (Exception ex)
                             {
                                 Console.ForegroundColor = ConsoleColor.Red;
-                                Console.WriteLine(Chap3MsgIncorrectFormat,  ex.Message);
+                                Console.WriteLine(MsgIncorrectFormat,  ex.Message);
                                 attemps--;
                                 Console.ForegroundColor = ConsoleColor.Gray;
 
@@ -581,6 +610,7 @@ public class Program
                         attemps = 5;
                         break;
                     case 4:
+                        Console.Clear();   
                         Console.WriteLine(Chap4Inventory); 
                         if (inventory[0].Equals(0) && inventory[1].Equals(0) && inventory[2].Equals(0) && inventory[3].Equals(0) && inventory[4].Equals(0))
                         {
@@ -626,6 +656,93 @@ public class Program
                         Console.ReadKey();
 
 
+                        break;
+                    case 5:
+                        try
+                        {
+                            Console.Clear();
+                            Console.WriteLine(Chap5Shop, bitCharacter);
+                            for (int i = 0; i < shop.Length; i++)
+                            {
+                                if (i.Equals(3))
+                                {
+                                    Console.WriteLine("\t\t\t\t\t{0}. {1}\t\t\t\t{2}", optionCount, shop[i], price[i]);
+                                    optionCount++;
+                                }
+                                else
+                                {
+                                    Console.WriteLine("\t\t\t\t\t{0}. {1}\t\t\t{2}", optionCount, shop[i], price[i]);
+                                    optionCount++;
+
+                                }
+                            }
+                            optionCount = 1;
+                            Console.WriteLine(Space);
+                            Console.Write(Chap5MsgOption);
+                            shopOption = Int32.Parse(Console.ReadLine());
+                            if (shopOption != 0)
+                            {
+                                if (shopOption >= 1 && shopOption <= 5)
+                                {
+                                    for (int i = 0; i < shop.Length; i++)
+                                    {
+                                        if (shopOption - 1 == i && price[shopOption - 1] <= bitCharacter)
+                                        {
+                                            inventory[i]++;
+                                            bitCharacter -= price[i];
+                                            i = shop.Length + 1;
+                                            validateShop = true;
+                                            Console.WriteLine(Chap5MsgPurchase, shop[shopOption - 1], price[shopOption - 1]);
+                                            Console.WriteLine(Space);
+                                            Console.WriteLine(MsgPressContinue);
+                                            Console.ReadKey();
+
+                                        }
+                                        else
+                                        {
+                                            validateShop = false;
+
+                                        }
+                                    }
+                                    if (!validateShop)
+                                    {
+                                        Console.WriteLine(Space);
+                                        Console.WriteLine(Chap5MsgNotBits);
+                                        Console.WriteLine(Space);
+                                        Console.WriteLine(LineSeparator);
+                                        Console.WriteLine(MsgPressContinue);
+                                        Console.ReadKey();
+                                    }
+                                }
+                                else
+                                {
+                                    Console.WriteLine(Space);
+                                    Console.WriteLine(Chap5MsgIncorretSelection);
+                                    Console.WriteLine(Space);
+                                    Console.WriteLine(LineSeparator);
+                                    Console.WriteLine(MsgPressContinue);
+                                    Console.ReadKey();
+
+                                }
+
+                            }
+                            else
+                            {
+                                Console.WriteLine(Chap5MsgLeaving);
+                                Console.WriteLine(Space);
+                                Console.WriteLine(LineSeparator);
+                                Console.ReadKey();
+
+
+                            }
+
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine(MsgIncorrectFormat, ex.Message);
+                            Console.ForegroundColor = ConsoleColor.Gray;
+                        }
                         break;
                     default:
 
