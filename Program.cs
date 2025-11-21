@@ -234,6 +234,14 @@ public class Program
         const string Chap5MsgNotBits = "You do not have enough bits to purchase this item.";
         const string Chap5MsgIncorretSelection = "The selection is incorrect.....";
 
+        const string Chap6Ability = @"
+===================================  CHAPTER 6 - Show attacks by LVL  ===================================
+
+                                    Available attacks for level {0}:
+";
+
+
+
 
         const string Welcome = "\t\t\tWelcome, {0} the {1} with level {2}";
         const string MsgOpIncorrect = "Select the correct option.";
@@ -282,6 +290,16 @@ public class Program
         int optionCount = 1;
         bool validateShop = true;
 
+        //chapter 6
+        string[][] powerLevel = new string[][] {
+            new string[]{"Magic Spark 💫" },
+            new string[]{ "Fireball 🔥", "Ice Ray 🥏", "Arcane Shield ⚕️" },
+            new string[]{ "Meteor ☄️", "Pure Energy Explosion 💥", "Minor Charm 🎭", "Air Strike 🍃" },
+            new string[]{"Wave of Light ⚜️", "Storm of Wings 🐦" },
+            new string[]{ "Cataclysm 🌋", "Portal of Chaos 🌀", "Arcane Blood Pact 🩸", "Elemental Storm ⛈️" }
+        }; 
+
+
 
         var random = new Random();
 
@@ -310,16 +328,16 @@ public class Program
             {
                 op = Convert.ToInt32(Console.ReadLine());
                 Console.WriteLine(LineSeparator);
-
+                validInput = true;
             }
-            catch (FormatException)
+            catch (FormatException ex)
             {
-                Console.WriteLine(InputErrorMessage);
+                Console.WriteLine(MsgIncorrectFormat, ex.Message);
                 validInput = false;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                Console.WriteLine(InputErrorMessage);
+                Console.WriteLine(MsgIncorrectFormat, ex.Message);
                 validInput = false;
             }
 
@@ -744,9 +762,38 @@ public class Program
                             Console.ForegroundColor = ConsoleColor.Gray;
                         }
                         break;
+                    case 6:
+                        Console.WriteLine(Chap6Ability,level);
+                        for (int i = 0; i < powerLevel.Length; i++)
+                        {
+                            if (level - 1 == i)
+                            {
+                                Console.Write("\t\t");
+                                for (int j = 0; j < powerLevel[i].Length; j++)
+                                {
+                                    Console.Write("- {0} ", powerLevel[i][j]);
+                                }
+                            }
+                            else if (level - 1 >= powerLevel.Length)
+                            {
+                                Console.Write("\t\t");
+                                for (int j = 0; j < powerLevel[powerLevel.Length - 1].Length; j++)
+                                {
+                                    Console.Write("- {0} ", powerLevel[powerLevel.Length - 1][j]);
+                                }
+
+                                i = powerLevel.Length + 1;
+                            }
+
+                        }
+                        Console.WriteLine(Space);
+                        Console.WriteLine(LineSeparator);
+                        Console.WriteLine(MsgPressContinue);
+                        Console.ReadKey();
+                        break;
                     default:
 
-                        Console.WriteLine(MsgOpIncorrect);
+                        Console.WriteLine(InputErrorMessage);
 
                         break;
                 }
