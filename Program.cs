@@ -199,8 +199,8 @@ public class Program
 
 =========================================================================================================";
         const string Chap3ShowMap = "\t\t\t\t  0 1 2 3 4";
-        const string MsgInputAxisX = "Insert the x axis ᛨ : ";
-        const string MsgInputAxisY = "Insert the y axis ⬌ : ";
+        const string MsgInputAxisY = "Insert the y axis ᛨ : ";
+        const string MsgInputAxisX = "Insert the x axis ⬌ : ";
         const string Chap3MsgMineOkPosition = "You mine at position [{0}][{1}] and you get {2} bits";
         const string Chap3MsgMineKoPosition = "There's nothing left to dig here: [{0}][{1}]";
         const string Chap3MsgMinePositionEmpty = "You mine at position [{0}][{1}] but found nothing.";
@@ -365,8 +365,8 @@ public class Program
         string notExcavated = "➖";
         string excaUnsuccessfully= "❌";
         string coin = "🪙";
-        int mapX = 0;
         int mapY = 0;
+        int mapX = 0;
         int attemps = 5;
         int bitCharacter = 0;
         int bitRandom;
@@ -398,10 +398,9 @@ public class Program
         string result = "";
         int countVowels = 0 ;
         string secretNumber = "";
-        int validateScroll = 0;
         int countCase1 = 0 ;
         int countCase2 = 0 ;
-         int countCase3 = 0;
+        int countCase3 = 0;
 
         var random = new Random();
 
@@ -464,20 +463,21 @@ public class Program
                             if ((inputName[i] >= 'A' && inputName[i] <= 'Z') || (inputName[i] >= 'a' && inputName[i] <= 'z'))
                             {
                                 validateName = true;
-
+                               
                             }
                             else
                             {
-                                i = 5;
+                                i = inputName.Length+1;
                                 validateName = false;
 
                             }
                         }
-                        inputName = inputName.Substring(0, 1).ToUpper() + inputName.Substring(1).ToLower();
+                        
 
 
-                        if (validateName)
+                        if (validateName && !inputName.Equals(""))
                         {
+                            inputName = inputName.Substring(0, 1).ToUpper() + inputName.Substring(1).ToLower();
                             Console.WriteLine(Character1Msg, inputName, level, powerCharacter);
                             showWelcome = true;
                             for (int i = 1; i <= DaysMax; i++)
@@ -672,41 +672,41 @@ public class Program
                             try
                             {
                                 Console.WriteLine(Space);
-                                Console.Write(MsgInputAxisX);
-                                mapX = Convert.ToInt32(Console.ReadLine());
-
                                 Console.Write(MsgInputAxisY);
                                 mapY = Convert.ToInt32(Console.ReadLine());
 
-                                if (mapX >= 0 && mapX <= 4 && mapY >= 0 && mapY <= 4)
+                                Console.Write(MsgInputAxisX);
+                                mapX = Convert.ToInt32(Console.ReadLine());
+
+                                if (mapY >= 0 && mapY <= 4 && mapX >= 0 && mapX <= 4)
                                 {
-                                    if (mining[mapX, mapY].Equals(coin) && showMining[mapX, mapY].Equals(notExcavated))
+                                    if (mining[mapY, mapX].Equals(coin) && showMining[mapY, mapX].Equals(notExcavated))
                                     {
                                         bitRandom = random.Next(5, 50);
-                                        showMining[mapX, mapY] = coin;
+                                        showMining[mapY, mapX] = coin;
                                         Console.ForegroundColor = ConsoleColor.Green;
 
 
-                                        Console.WriteLine(Chap3MsgMineOkPosition, mapX, mapY, bitRandom);
+                                        Console.WriteLine(Chap3MsgMineOkPosition, mapY, mapX, bitRandom);
                                         bitCharacter += bitRandom;
                                         Console.ForegroundColor = ConsoleColor.Gray;
                                         attemps--;
 
 
                                     }
-                                    else if (mining[mapX, mapY].Equals(coin) && showMining[mapX, mapY].Equals(coin))
+                                    else if (mining[mapY, mapX].Equals(coin) && showMining[mapY, mapX].Equals(coin))
                                     {
-                                        showMining[mapX, mapY] = excaUnsuccessfully;
+                                        showMining[mapY, mapX] = excaUnsuccessfully;
                                         Console.ForegroundColor = ConsoleColor.Red;
-                                        Console.WriteLine(Chap3MsgMineKoPosition, mapX, mapY);
+                                        Console.WriteLine(Chap3MsgMineKoPosition, mapY, mapX);
                                         attemps--;
                                         Console.ForegroundColor = ConsoleColor.Gray;
                                     }
                                     else
                                     {
-                                        showMining[mapX, mapY] = excaUnsuccessfully;
+                                        showMining[mapY, mapX] = excaUnsuccessfully;
                                         Console.ForegroundColor = ConsoleColor.Red;
-                                        Console.WriteLine(Chap3MsgMinePositionEmpty, mapX, mapY);
+                                        Console.WriteLine(Chap3MsgMinePositionEmpty, mapY, mapX);
                                         attemps--;
                                         Console.ForegroundColor = ConsoleColor.Gray;
                                     }
@@ -719,10 +719,7 @@ public class Program
                                     Console.WriteLine(Chap3MsgErrorAxis);
                                     attemps--;
                                     Console.ForegroundColor = ConsoleColor.Gray;
-
                                 }
-
-
                             }
                             catch (Exception ex)
                             {
@@ -730,13 +727,8 @@ public class Program
                                 Console.WriteLine(MsgIncorrectFormat,  ex.Message);
                                 attemps--;
                                 Console.ForegroundColor = ConsoleColor.Gray;
-
-
                             }
-
                             Thread.Sleep(1500);
-                            
-
                         }
                         Console.Clear();
                         Console.WriteLine(Chap3MineLeaving, bitCharacter);
